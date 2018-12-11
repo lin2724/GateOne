@@ -946,8 +946,10 @@ class AutoExpireDict(dict):
         """
         self.creation_times[key] = datetime.now() # Set/renew the start time
         # Start up the key watcher if it isn't already running
+        """
         if not self._key_watcher._running:
             self._key_watcher.start()
+        """
 
     def __setitem__(self, key, value):
         """
