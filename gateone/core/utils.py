@@ -158,7 +158,7 @@ class AutoExpireDict(dict):
         if 'timeout' in kwargs:
             self.timeout = kwargs.pop('timeout')
         if 'interval' in kwargs:
-            self.interval = kwargs.pop('interval')
+            self._interval = kwargs.pop('interval')
         super(AutoExpireDict, self).__init__(*args, **kwargs)
         # Set the start time on every key
         for k in self.keys():
