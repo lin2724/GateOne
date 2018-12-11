@@ -889,9 +889,11 @@ class AutoExpireDict(dict):
         # Set the start time on every key
         for k in self.keys():
             self.creation_times[k] = datetime.now()
+        """
         self._key_watcher = PeriodicCallback(
             self._timeout_checker, self.interval, io_loop=self.io_loop)
         self._key_watcher.start() # Will shut down at the next interval if empty
+        """
 
     @property
     def timeout(self):
@@ -931,10 +933,12 @@ class AutoExpireDict(dict):
             value = total_seconds(value) * 1000 # PeriodicCallback uses ms
         self._interval = value
         # Restart the PeriodicCallback
+        """
         if hasattr(self, '_key_watcher'):
             self._key_watcher.stop()
         self._key_watcher = PeriodicCallback(
             self._timeout_checker, value, io_loop=self.io_loop)
+        """
 
     def renew(self, key):
         """
@@ -965,7 +969,9 @@ class AutoExpireDict(dict):
         Ensures that our `tornado.ioloop.PeriodicCallback`
         (``self._key_watcher``) gets stopped.
         """
+        """
         self._key_watcher.stop()
+        """
 
     def update(self, *args, **kwargs):
         """
@@ -983,14 +989,16 @@ class AutoExpireDict(dict):
         super(AutoExpireDict, self).clear()
         self.creation_times.clear()
         # Shut down the key watcher right away
-        self._key_watcher.stop()
+        # self._key_watcher.stop()
 
     def _timeout_checker(self):
         """
         Walks ``self`` and removes keys that have passed the expiration point.
         """
+        """
         if not self.creation_times:
             self._key_watcher.stop() # Nothing left to watch
+        """
         for key, starttime in list(self.creation_times.items()):
             if datetime.now() - starttime > self.timeout:
                 del self[key]
